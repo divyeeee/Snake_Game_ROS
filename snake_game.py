@@ -73,7 +73,11 @@ def game_over_condition():
                 if dist < Min_Dis:  
                     return True  
     return False  
-
+"""def boundary_condition():
+    global Turtle_List
+    if Turtle_List[0].turtle_pose.x>11 or Turtle_List[0].turtle_pose.x< 0 or Turtle_List[0].turtle_pose.y>11 or Turtle_List[0].turtle_pose.y<0:
+        return True
+    return False"""
 def turtle1_poseCallback(data):
     global turtle1_pose
     global Turtle_Last
@@ -87,8 +91,12 @@ def turtle1_poseCallback(data):
     
     
     
-
+    """if boundary_condition():
+        rospy.loginfo("Game Over !!! A turtle has crashed or eaten itself.")
+        rospy.loginfo("Your score is [%d]", len(Turtle_List))
+        rospy.signal_shutdown("Game Over")"""
     for i in range(len(Turtle_List)):
+        
         twist_data = Twist()
         diff = math.sqrt(pow((turtle1_pose.x - Turtle_List[i].turtle_pose.x) , 2) + pow((turtle1_pose.y - Turtle_List[i].turtle_pose.y), 2))
         ang = math.atan2(turtle1_pose.y - Turtle_List[i].turtle_pose.y, turtle1_pose.x - Turtle_List[i].turtle_pose.x) - Turtle_List[i].turtle_pose.theta
@@ -127,7 +135,7 @@ def turtle1_poseCallback(data):
             Turtle_List[i].oldAngle = ang
           # Check end condition  
     if game_over_condition():
-        rospy.loginfo("Game Over !!! A turtle has reached the end or eaten itself.")
+        rospy.loginfo("Game Over !!! A turtle has crashed or eaten itself.")
         rospy.loginfo("Your score is [%d]", len(Turtle_List))
         rospy.signal_shutdown("Game Over")  
 if __name__ == "__main__":
